@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Chakra+Petch:400,600,700');
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+html,
+body{
+  height: 100%;
+}
+
+body {
+  font: 14px/20px 'Chakra Petch', sans-serif;
+  color: #777;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+a,
+button,
+input[type=submit] {
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.inactiveLink{
+  pointer-events: none;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  outline: none !important;
+  //-webkit-appearance: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+.search-input{
+  margin-bottom: 20px;
+}

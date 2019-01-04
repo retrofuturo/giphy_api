@@ -1,11 +1,11 @@
 export default function ($stateProvider) {
   $stateProvider
-    .state('addProviderUser', {
-      url: '/add-user',
-      component: 'providerUserComponent',
+    .state('imagesList', {
+      url: '/images-list',
+      component: 'imagesListComponent',
     })
     .state('otherwise', {
       url: '*path',
-      component: 'providerUserListComponent',
+      component: 'imagesListComponent',
     });
 }
