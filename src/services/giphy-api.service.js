@@ -43,8 +43,8 @@ export default class GiphyApiService {
   getCollectionArray() {
     const ids = JSON.parse(localStorage.getItem('collection')).join(',');
     console.log(ids);
-    const result = this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=Ij1cbMbIWDKDK`);
-    const gifObject = result.then((gif) =>{
+    const result = this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=${ids}`);
+    const gifObject = result.then((gif) => {
       console.log(gif);
     });
     return gifObject;
@@ -52,6 +52,7 @@ export default class GiphyApiService {
   addToCollection(id) {
     this.collection.push(id);
     localStorage.setItem('collection', JSON.stringify(this.collection));
+    this.getCollectionArray();
   }
   deleteFromCollection(id) {
     this.collection.forEach((item, i) => {
@@ -60,6 +61,7 @@ export default class GiphyApiService {
         localStorage.setItem('collection', JSON.stringify(this.collection));
       }
     });
+    this.getCollectionArray();
   }
   uploadImage(inputDOMNode) {
     const form = new FormData();
