@@ -1,45 +1,76 @@
-<div class="search-input">
-  <md-input-container>
-    <label>Search</label>
-    <input name="searchParams" ng-model="$ctrl.searchParams" ng-model-options="{ debounce: 1000 }" ng-change="$ctrl.searchGifs()">
-  </md-input-container>
+
+<div class="container">
+  <div class="search-input">
+    <md-input-container>
+      <label>Search</label>
+      <input name="searchParams" ng-model="$ctrl.searchParams" ng-model-options="{ debounce: 1000 }" ng-change="$ctrl.searchGifs()">
+    </md-input-container>
+  </div>
+
+  <div class="search-section" ng-if="$ctrl.searchArray && $ctrl.searchArray.length">
+    <h2>Search results</h2>
+    <div class="gif-wrap">
+      <div class="gif-block" ng-repeat="gif in $ctrl.searchArray">
+        <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id)">
+        <img src="{{gif.downsizedUrl}}" alt="">
+        <div>ID - {{gif.id}}</div>
+        <div>Username - {{gif.username}}</div>
+        <div>Rating - {{gif.rating}}</div>
+        <div>Import datetime - {{gif.import_datetime}}</div>
+        <div>Type - {{gif.type}}</div>
+      </div>
+    </div>
+    <div class="pagination">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Trending gifs</h2>
+  <div class="gif-wrap">
+    <div class="gif-block" ng-repeat="gif in $ctrl.gifArray">
+      <img src="{{gif.downsizedUrl}}" alt="">
+      <div>ID - {{gif.id}}</div>
+      <div>Username - {{gif.username}}</div>
+      <div>Rating - {{gif.rating}}</div>
+      <div>Import datetime - {{gif.import_datetime}}</div>
+      <div>Type - {{gif.type}}</div>
+      <label>Add to collection</label>
+      <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif($index)">
+    </div>
+  </div>
+  <div class="pagination">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+  </div>
+
+  <h2>My collection</h2>
+  <div class="gif-wrap">
+    <div class="gif-block" ng-repeat="gif in $ctrl.collectionArray">
+      <img src="{{gif.downsizedUrl}}" alt="">
+      <div>ID - {{gif.id}}</div>
+      <div>Username - {{gif.username}}</div>
+      <div>Rating - {{gif.rating}}</div>
+      <div>Import datetime - {{gif.import_datetime}}</div>
+      <div>Type - {{gif.type}}</div>
+    </div>
+  </div>
+
+  <input type="file" name="imageInput" id="imageUpload">
+  <md-button type="button" ng-click="$ctrl.uploadGif()">Upload</md-button>
 </div>
 
-<h2>Search results</h2>
-<div class="gif-block" ng-repeat="gif in $ctrl.searchArray">
-  <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id)">
-  <img src="{{gif.downsizedUrl}}" alt="">
-  <div>ID - {{gif.id}}</div>
-  <div>Username - {{gif.username}}</div>
-  <div>Rating - {{gif.rating}}</div>
-  <div>Import datetime - {{gif.import_datetime}}</div>
-  <div>Type - {{gif.type}}</div>
-</div>
 
-<h2>Random</h2>
-<div class="gif-block" ng-repeat="gif in $ctrl.gifArray">
-  <img src="{{gif.downsizedUrl}}" alt="">
-  <div>ID - {{gif.id}}</div>
-  <div>Username - {{gif.username}}</div>
-  <div>Rating - {{gif.rating}}</div>
-  <div>Import datetime - {{gif.import_datetime}}</div>
-  <div>Type - {{gif.type}}</div>
-  <label>Add to collection</label>
-  <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif($index)">
-</div>
-
-<h2>My collection</h2>
-<div class="gif-block" ng-repeat="gif in $ctrl.gifArray">
-  <img src="{{gif.downsizedUrl}}" alt="">
-  <div>ID - {{gif.id}}</div>
-  <div>Username - {{gif.username}}</div>
-  <div>Rating - {{gif.rating}}</div>
-  <div>Import datetime - {{gif.import_datetime}}</div>
-  <div>Type - {{gif.type}}</div>
-</div>
-
-<input type="file" name="imageInput" id="imageUpload">
-<button type="submit" ng-click="$ctrl.uploadGif()">Upload</button>
 
 
 

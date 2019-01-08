@@ -12,27 +12,28 @@ class ImagesListController {
     this.searchParams = '';
   }
   $onInit() {
-    this.getRandomGifs();
+    this.getTrendingGifs();
     this.getCollection();
   }
-  getRandomGifs() {
-    this.gifArray = this.GiphyApiService.getGifs();
+  getTrendingGifs() {
+    this.gifArray = this.GiphyApiService.getTrendingGifs();
   }
   searchGifs() {
-    let params = this.searchParams.split(' ').join('+');
+    const params = this.searchParams.split(' ').join('+');
     console.log(params);
     this.searchArray = this.GiphyApiService.searchGifs(params);
   }
   addGif(index) {
     if (this.gifArray[index].collection) {
       this.GiphyApiService.addToCollection(this.gifArray[index].id);
+      this.getCollection();
     } else {
       this.GiphyApiService.deleteFromCollection(this.gifArray[index].id);
+      this.getCollection();
     }
   }
   getCollection() {
-    let result = this.GiphyApiService.getCollectionArray();
-    console.log(result);
+    this.collectionArray = this.GiphyApiService.getCollectionArray();
   }
   uploadGif() {
     const inputDOMNode = document.getElementById('imageUpload');

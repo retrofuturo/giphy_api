@@ -73,3 +73,37 @@ img {
 .search-input{
   margin-bottom: 20px;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gif-wrap{
+  display: flex;
+  flex-wrap: wrap;
+
+  .gif-block{
+    margin: 14px 7px 0;
+  }
+}
+
+.pagination {
+  margin-top: 15px;
+
+  ul {
+    display: flex;
+    justify-content: center;
+
+    li {
+      border: #777 1px solid;
+      border-radius: 50%;
+      height: 25px;
+      width: 25px;
+      line-height: 22px;
+      text-align: center;
+      margin: 0 3px;
+      cursor: pointer;
+    }
+  }
+}
