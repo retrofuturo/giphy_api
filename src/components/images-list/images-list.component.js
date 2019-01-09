@@ -62,7 +62,6 @@ class ImagesListController {
   uploadGif() {
     const inputDOMNode = document.getElementById('imageUpload');
     this.GiphyApiService.uploadImage(inputDOMNode, this.uploadTags).then(() => {
-      this.uploadTags = '';
       this.uploadSuccess();
       this.getCollection();
     }).catch((error) => {
@@ -70,6 +69,7 @@ class ImagesListController {
     });
   }
   uploadSuccess() {
+    this.uploadTags = '';
     this.uploadSuccessfull = true;
     setTimeout(() => {
       this.uploadSuccessfull = false;
