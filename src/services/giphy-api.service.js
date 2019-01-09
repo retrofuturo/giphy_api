@@ -43,7 +43,12 @@ export default class GiphyApiService {
                       .then(response => this.addGifs(response));
   }
   getCollectionIds() {
-    return JSON.parse(localStorage.getItem('collection')).join(',');
+    const ids = JSON.parse(localStorage.getItem('collection'));
+    if (ids) {
+      return ids.join(',');
+    } else {
+      return null;
+    }
   }
   getCollection(ids) {
     return this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=${ids}`)
