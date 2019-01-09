@@ -44,14 +44,9 @@ class ImagesListController {
     }
     this.GiphyApiService.search(this.pageSize, params, offset).then((result) => this.searchGifs = result);
   }
-  addGif(id, collection) {
-    if (collection) {
-      this.GiphyApiService.addToCollection(id);
-      this.getCollection();
-    } else {
-      this.GiphyApiService.deleteFromCollection(id);
-      this.getCollection();
-    }
+  addGif(id) {
+    this.GiphyApiService.addToCollection(id);
+    this.getCollection();
   }
   deleteFromCollection(id) {
     this.GiphyApiService.deleteFromCollection(id);

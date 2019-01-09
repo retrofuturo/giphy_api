@@ -36,9 +36,9 @@
             <div>Import datetime - {{gif.import_datetime}}</div>
             <div>Type - {{gif.type}}</div>
             <div class="checkbox-wrap">
-              <md-checkbox name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
+              <md-button ng-click="$ctrl.addGif(gif.id)" class="md-raised">
                 Add to collection
-              </md-checkbox>
+              </md-button>
             </div>
           </div>
         </div>
@@ -65,9 +65,9 @@
             <div>Import datetime - {{gif.import_datetime}}</div>
             <div>Type - {{gif.type}}</div>
             <div class="checkbox-wrap">
-              <md-checkbox type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
+              <md-button ng-click="$ctrl.addGif(gif.id)" class="md-raised">
                 Add to collection
-              </md-checkbox>
+              </md-button>
             </div>
           </div>
         </div>

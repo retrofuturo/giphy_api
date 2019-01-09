@@ -58,8 +58,11 @@ export default class GiphyApiService {
     const collection = JSON.parse(localStorage.getItem('collection'));
     if (collection) {
       this.collection = collection;
+      const alreadyAdded = this.collection.findIndex(colID => colID === id) !== -1;
+      if (!alreadyAdded) this.collection.push(id);
+    } else {
+      this.collection.push(id);
     }
-    this.collection.push(id);
     localStorage.setItem('collection', JSON.stringify(this.collection));
   }
   deleteFromCollection(id) {
