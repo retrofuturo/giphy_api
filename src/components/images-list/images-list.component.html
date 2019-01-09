@@ -1,5 +1,6 @@
 
 <div class="container">
+
   <div class="search-input">
     <md-input-container>
       <label>Search</label>
@@ -15,7 +16,8 @@
         <input name="tags" ng-model="$ctrl.uploadTags">
       </md-input-container>
     </div>
-    <input type="file" name="imageInput" id="imageUpload" class="file-input">
+    <label for="imageUpload" class="md-button md-raised md-primary">Choose Files</label>
+    <input type="file" name="imageInput" id="imageUpload" class="ng-hide">
     <md-button class="md-raised" ng-click="$ctrl.uploadGif()">Upload</md-button>
     <h5 ng-if="$ctrl.uploadSuccessfull">Upload successful</h5>
   </div>
@@ -48,49 +50,58 @@
               disabled-class="disabled-pagination">
   </pagination>
 
-  <h2>Trending gifs</h2>
-    <div class="row">
-      <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.trendingGifs.gifArray">
-        <div class="gif-block">
-          <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
-            <img src="{{gif.downsizedUrl}}" alt="">
-          </div>
-          <div>ID - {{gif.id}}</div>
-          <div>Username - {{gif.username}}</div>
-          <div>Rating - {{gif.rating}}</div>
-          <div>Import datetime - {{gif.import_datetime}}</div>
-          <div>Type - {{gif.type}}</div>
-          <div class="checkbox-wrap">
-            <md-checkbox type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
-              Add to collection
-            </md-checkbox>
+  <md-tabs md-dynamic-height md-stretch-tabs="never">
+    <md-tab label="Trending gifs">
+      <h2>Trending gifs</h2>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.trendingGifs.gifArray">
+          <div class="gif-block">
+            <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
+              <img src="{{gif.downsizedUrl}}" alt="">
+            </div>
+            <div>ID - {{gif.id}}</div>
+            <div>Username - {{gif.username}}</div>
+            <div>Rating - {{gif.rating}}</div>
+            <div>Import datetime - {{gif.import_datetime}}</div>
+            <div>Type - {{gif.type}}</div>
+            <div class="checkbox-wrap">
+              <md-checkbox type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
+                Add to collection
+              </md-checkbox>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  <pagination page="$ctrl.page" page-size="$ctrl.pageSize" total="$ctrl.trendingGifs.gifsCount" paging-action="$ctrl.selectPage"
-              text-first="First" text-last="Last" text-next="→" text-prev="←" show-prev-next="true" show-first-last="true"
-              disabled-class="disabled-pagination">
-  </pagination>
-
-  <h2>My collection</h2>
-    <div class="row">
-      <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.collection.gifArray">
-        <div class="gif-block">
-          <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
-            <img src="{{gif.downsizedUrl}}" alt="">
+      <pagination page="$ctrl.page" page-size="$ctrl.pageSize" total="$ctrl.trendingGifs.gifsCount" paging-action="$ctrl.selectPage"
+                  text-first="First" text-last="Last" text-next="→" text-prev="←" show-prev-next="true" show-first-last="true"
+                  disabled-class="disabled-pagination">
+      </pagination>
+    </md-tab>
+    <md-tab label="My collection">
+      <div ng-if="$ctrl.collection && $ctrl.collection.gifArray.length">
+        <h2>My collection</h2>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.collection.gifArray">
+            <div class="gif-block">
+              <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
+                <img src="{{gif.downsizedUrl}}" alt="">
+              </div>
+              <div>ID - {{gif.id}}</div>
+              <div>Username - {{gif.username}}</div>
+              <div>Rating - {{gif.rating}}</div>
+              <div>Import datetime - {{gif.import_datetime}}</div>
+              <div>Type - {{gif.type}}</div>
+              <md-button class="md-raised" ng-click="$ctrl.deleteFromCollection(gif.id)">Delete from collection</md-button>
+            </div>
           </div>
-          <div>ID - {{gif.id}}</div>
-          <div>Username - {{gif.username}}</div>
-          <div>Rating - {{gif.rating}}</div>
-          <div>Import datetime - {{gif.import_datetime}}</div>
-          <div>Type - {{gif.type}}</div>
-          <md-button class="md-raised" ng-click="$ctrl.deleteFromCollection(gif.id)">Delete from collection</md-button>
         </div>
       </div>
-    </div>
-  </div>
+    </md-tab>
+  </md-tabs>
+
+
+
 </div>
 
 <div class="overlay" ng-class="{active: $ctrl.originalUrl}"></div>

@@ -37,17 +37,18 @@ export default class GiphyApiService {
       gifObj.collection = false;
       gifsObject.gifArray.push(gifObj);
     });
-
     return gifsObject;
   }
   search(limit, searchParams, offset) {
     return this.$http.get(`${this.baseUrl}${this.searchPath}?q=${searchParams}&api_key=${this.apiKey}&limit=${limit}&offset=${offset}`)
                       .then(response => this.addGifs(response));
   }
-  getCollection() {
-    const ids = JSON.parse(localStorage.getItem('collection')).join(',');
+  getCollectionIds() {
+    return JSON.parse(localStorage.getItem('collection')).join(',');
+  }
+  getCollection(ids) {
     return this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=${ids}`)
-                       .then(response => this.addGifs(response));
+                 .then(response => this.addGifs(response));
   }
   addToCollection(id) {
     this.collection = JSON.parse(localStorage.getItem('collection'));

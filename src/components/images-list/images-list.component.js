@@ -57,7 +57,16 @@ class ImagesListController {
     this.getCollection();
   }
   getCollection() {
-    this.GiphyApiService.getCollection().then((result) => this.collection = result);
+    const ids = this.GiphyApiService.getCollectionIds();
+    if (ids) {
+      this.GiphyApiService.getCollection(ids).then((result) => {
+        if (result) {
+          this.collection = result;
+        }
+      });
+    } else {
+      this.collection = {};
+    }
   }
   uploadGif() {
     const inputDOMNode = document.getElementById('imageUpload');
