@@ -16,9 +16,9 @@
         <input name="tags" ng-model="$ctrl.uploadTags">
       </md-input-container>
     </div>
-    <label for="imageUpload" class="md-button md-raised md-primary" ng-disabled="$ctrl.uploadDisabled">Choose Files</label>
-    <input type="file" name="imageInput" id="imageUpload" class="ng-hide" ng-disabled="$ctrl.uploadDisabled">
-    <md-button class="md-raised" ng-click="$ctrl.uploadGif()">Upload</md-button>
+    <label for="imageUpload" class="md-button md-raised md-primary">Choose Files</label>
+    <input type="file" name="imageInput" id="imageUpload" class="ng-hide">
+    <md-button class="md-raised" ng-click="$ctrl.uploadGif()" ng-disabled="$ctrl.uploadDisabled">Upload</md-button>
     <h5 ng-if="$ctrl.uploadSuccessfull">Upload successful</h5>
   </div>
 
