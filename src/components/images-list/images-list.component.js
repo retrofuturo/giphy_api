@@ -15,6 +15,7 @@ class ImagesListController {
     this.originalUrl = '';
     this.uploadTags = '';
     this.uploadSuccessfull = false;
+    this.uploadDisabled = false;
     this.selectPage = this.selectPage.bind(this);
     this.search = this.search.bind(this);
   }
@@ -69,6 +70,7 @@ class ImagesListController {
     }
   }
   uploadGif() {
+    this.uploadDisabled = true;
     const inputDOMNode = document.getElementById('imageUpload');
     this.GiphyApiService.uploadImage(inputDOMNode, this.uploadTags).then(() => {
       this.uploadSuccess();
@@ -79,6 +81,7 @@ class ImagesListController {
   }
   uploadSuccess() {
     this.uploadTags = '';
+    this.uploadDisabled = false;
     this.uploadSuccessfull = true;
     setTimeout(() => {
       this.uploadSuccessfull = false;
