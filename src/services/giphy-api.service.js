@@ -55,12 +55,18 @@ export default class GiphyApiService {
                  .then(response => this.addGifs(response));
   }
   addToCollection(id) {
-    this.collection = JSON.parse(localStorage.getItem('collection'));
+    const collection = JSON.parse(localStorage.getItem('collection'));
+    if (collection) {
+      this.collection = collection;
+    }
     this.collection.push(id);
     localStorage.setItem('collection', JSON.stringify(this.collection));
   }
   deleteFromCollection(id) {
-    this.collection = JSON.parse(localStorage.getItem('collection'));
+    const collection = JSON.parse(localStorage.getItem('collection'));
+    if (collection) {
+      this.collection = collection;
+    }
     this.collection.forEach((item, i) => {
       if (item === id) {
         this.collection.splice(i, 1);
