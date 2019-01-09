@@ -3,72 +3,98 @@
   <div class="search-input">
     <md-input-container>
       <label>Search</label>
-      <input name="searchParams" ng-model="$ctrl.searchParams" ng-model-options="{ debounce: 1000 }" ng-change="$ctrl.searchGifs()">
+      <input name="searchParams" ng-model="$ctrl.searchParams" ng-model-options="{ debounce: 1000 }" ng-change="$ctrl.search()">
     </md-input-container>
   </div>
 
-  <div class="search-section" ng-if="$ctrl.searchArray && $ctrl.searchArray.length">
-    <h2>Search results</h2>
-    <div class="gif-wrap">
-      <div class="gif-block" ng-repeat="gif in $ctrl.searchArray">
-        <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id)">
-        <img src="{{gif.downsizedUrl}}" alt="">
-        <div>ID - {{gif.id}}</div>
-        <div>Username - {{gif.username}}</div>
-        <div>Rating - {{gif.rating}}</div>
-        <div>Import datetime - {{gif.import_datetime}}</div>
-        <div>Type - {{gif.type}}</div>
-      </div>
+  <div class="upload-block">
+    <h5>Upload your gif:</h5>
+    <div>
+      <md-input-container>
+        <label>Tags</label>
+        <input name="tags" ng-model="$ctrl.uploadTags">
+      </md-input-container>
     </div>
-    <div class="pagination">
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-      </ul>
-    </div>
+    <input type="file" name="imageInput" id="imageUpload" class="file-input">
+    <md-button class="md-raised" ng-click="$ctrl.uploadGif()">Upload</md-button>
+    <h5 ng-if="$ctrl.uploadSuccessfull">Your upload is successful</h5>
   </div>
+
+  <div class="search-section" ng-if="$ctrl.searchGifs.gifArray && $ctrl.searchGifs.gifArray.length">
+    <h2>Search results</h2>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.searchGifs.gifArray">
+          <div class="gif-block">
+            <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
+              <img src="{{gif.downsizedUrl}}" alt="">
+            </div>
+            <div>ID - {{gif.id}}</div>
+            <div>Username - {{gif.username}}</div>
+            <div>Rating - {{gif.rating}}</div>
+            <div>Import datetime - {{gif.import_datetime}}</div>
+            <div>Type - {{gif.type}}</div>
+            <div class="checkbox-wrap">
+              <md-checkbox name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
+                Add to collection
+              </md-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <pagination page="$ctrl.searchPage" page-size="$ctrl.pageSize" total="$ctrl.searchGifs.gifsCount" paging-action="$ctrl.search"
+              text-first="First" text-last="Last" text-next="→" text-prev="←" show-prev-next="true" show-first-last="true"
+              disabled-class="disabled-pagination">
+  </pagination>
 
   <h2>Trending gifs</h2>
-  <div class="gif-wrap">
-    <div class="gif-block" ng-repeat="gif in $ctrl.gifArray">
-      <img src="{{gif.downsizedUrl}}" alt="">
-      <div>ID - {{gif.id}}</div>
-      <div>Username - {{gif.username}}</div>
-      <div>Rating - {{gif.rating}}</div>
-      <div>Import datetime - {{gif.import_datetime}}</div>
-      <div>Type - {{gif.type}}</div>
-      <label>Add to collection</label>
-      <input type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif($index)">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.trendingGifs.gifArray">
+        <div class="gif-block">
+          <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
+            <img src="{{gif.downsizedUrl}}" alt="">
+          </div>
+          <div>ID - {{gif.id}}</div>
+          <div>Username - {{gif.username}}</div>
+          <div>Rating - {{gif.rating}}</div>
+          <div>Import datetime - {{gif.import_datetime}}</div>
+          <div>Type - {{gif.type}}</div>
+          <div class="checkbox-wrap">
+            <md-checkbox type="checkbox" name="collection" ng-model="gif.collection" ng-change="$ctrl.addGif(gif.id, gif.collection)">
+              Add to collection
+            </md-checkbox>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="pagination">
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-    </ul>
-  </div>
+
+  <pagination page="$ctrl.page" page-size="$ctrl.pageSize" total="$ctrl.trendingGifs.gifsCount" paging-action="$ctrl.selectPage"
+              text-first="First" text-last="Last" text-next="→" text-prev="←" show-prev-next="true" show-first-last="true"
+              disabled-class="disabled-pagination">
+  </pagination>
 
   <h2>My collection</h2>
-  <div class="gif-wrap">
-    <div class="gif-block" ng-repeat="gif in $ctrl.collectionArray">
-      <img src="{{gif.downsizedUrl}}" alt="">
-      <div>ID - {{gif.id}}</div>
-      <div>Username - {{gif.username}}</div>
-      <div>Rating - {{gif.rating}}</div>
-      <div>Import datetime - {{gif.import_datetime}}</div>
-      <div>Type - {{gif.type}}</div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="gif in $ctrl.collection.gifArray">
+        <div class="gif-block">
+          <div ng-click="$ctrl.openOriginal(gif.originalUrl)" class="img">
+            <img src="{{gif.downsizedUrl}}" alt="">
+          </div>
+          <div>ID - {{gif.id}}</div>
+          <div>Username - {{gif.username}}</div>
+          <div>Rating - {{gif.rating}}</div>
+          <div>Import datetime - {{gif.import_datetime}}</div>
+          <div>Type - {{gif.type}}</div>
+          <md-button class="md-raised" ng-click="$ctrl.deleteFromCollection(gif.id)">Delete from collection</md-button>
+        </div>
+      </div>
     </div>
   </div>
-
-  <input type="file" name="imageInput" id="imageUpload">
-  <md-button type="button" ng-click="$ctrl.uploadGif()">Upload</md-button>
 </div>
+
+<div class="overlay" ng-class="{active: $ctrl.originalUrl}"></div>
+<original-image url="$ctrl.originalUrl" ng-if="$ctrl.originalUrl"></original-image>
 
 
 

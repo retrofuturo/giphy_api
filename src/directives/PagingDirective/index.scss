@@ -1,0 +1,25 @@
+pagination {
+  ul.pagination {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    margin-bottom: 15px;
+    .disabled-pagination,
+    .active {
+      span {
+        opacity: 0.4;
+      }
+    }
+    span {
+      font-size: 14px;
+      color: #445259;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+    .pagination-arrow {
+      font-size: 18px;
+      line-height: 18px;
+      color: #000;
+    }
+  }
+}

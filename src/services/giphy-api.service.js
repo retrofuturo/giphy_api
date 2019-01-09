@@ -5,51 +5,49 @@ export default class GiphyApiService {
   }
   constructor($http) {
     this.$http = $http;
-    this.gifs = {};
-    this.randomGif = '';
     this.baseUrl = 'http://api.giphy.com';
     this.trendingPath = '/v1/gifs/trending';
     this.searchPath = '/v1/gifs/search';
     this.findPath = '/v1/gifs';
     this.apiKey = 'MHJ6eAyCOWfljhEUWi4Mr9wdIDCgA1mj';
     this.collection = [];
-    this.gifLimit = 6;
+    this.pageSize = 6;
   }
-  getTrendingGifs() {
-    const result = this.$http.get(`${this.baseUrl}${this.trendingPath}?api_key=${this.apiKey}&limit=${this.gifLimit}&offset=3`);
-    const gifArray = this.addGifArray(result);
+  getTrendingGifs(limit, offset = 0) {
+    return this.$http.get(`${this.baseUrl}${this.trendingPath}?api_key=${this.apiKey}&limit=${limit}&offset=${offset}`)
+                     .then(response => this.addGifs(response));
+  }
 
-    return gifArray;
-  }
-  addGifArray(result) {
-    const gifArray = [];
-    result.then((gifs) => {
-      console.log(gifs);
-      gifs.data.data.forEach((gif) => {
-        const gifObj = {};
-        gifObj.downsizedUrl = gif.images.fixed_height.url;
-        gifObj.id = gif.id;
-        gifObj.username = gif.username;
-        gifObj.rating = gif.rating;
-        gifObj.import_datetime = gif.import_datetime;
-        gifObj.type = gif.type;
-        gifObj.collection = false;
-        gifArray.push(gifObj);
-      });
+  addGifs(gifs) {
+    const gifsObject = {
+      gifsCount: 0,
+      gifArray: [],
+    };
+    console.log(gifs);
+    gifsObject.gifsCount = gifs.data.pagination.total_count;
+    gifs.data.data.forEach((gif) => {
+      const gifObj = {};
+      gifObj.downsizedUrl = gif.images.fixed_height.url;
+      gifObj.originalUrl = gif.images.original.url;
+      gifObj.id = gif.id;
+      gifObj.username = gif.username;
+      gifObj.rating = gif.rating;
+      gifObj.import_datetime = gif.import_datetime;
+      gifObj.type = gif.type;
+      gifObj.collection = false;
+      gifsObject.gifArray.push(gifObj);
     });
-    return gifArray;
+
+    return gifsObject;
   }
-  searchGifs(searchParams) {
-    const result = this.$http.get(`${this.baseUrl}${this.searchPath}?q=${searchParams}&api_key=${this.apiKey}&limit=5&offset=5`);
-    const gifArray = this.addGifArray(result);
-    return gifArray;
+  search(limit, searchParams, offset) {
+    return this.$http.get(`${this.baseUrl}${this.searchPath}?q=${searchParams}&api_key=${this.apiKey}&limit=${limit}&offset=${offset}`)
+                      .then(response => this.addGifs(response));
   }
-  getCollectionArray() {
+  getCollection() {
     const ids = JSON.parse(localStorage.getItem('collection')).join(',');
-    console.log(ids);
-    const result = this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=${ids}`);
-    const gifArray = this.addGifArray(result);
-    return gifArray;
+    return this.$http.get(`${this.baseUrl}${this.findPath}?api_key=${this.apiKey}&ids=${ids}`)
+                       .then(response => this.addGifs(response));
   }
   addToCollection(id) {
     this.collection = JSON.parse(localStorage.getItem('collection'));
@@ -65,18 +63,19 @@ export default class GiphyApiService {
       }
     });
   }
-  uploadImage(inputDOMNode) {
+  uploadImage(inputDOMNode, uploadTags) {
+    const tags = uploadTags.split(' ').join(',');
     const form = new FormData();
     form.append('api_key', this.apiKey);
     form.append('file', inputDOMNode.files[0], inputDOMNode.files[0].name);
-    console.log(form);
+    form.append('tags', tags);
     const config = {
       headers: {
         'Content-type': undefined,
       },
     };
-    this.$http.post('http://upload.giphy.com/v1/gifs', form, config).then((result) => {
-      console.log(result);
+    return this.$http.post('http://upload.giphy.com/v1/gifs', form, config).then((result) => {
+      this.addToCollection(result.data.data.id);
     });
   }
 }

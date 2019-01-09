@@ -13,7 +13,6 @@
     "lint": "eslint ./src/",
     "test": "./node_modules/karma/bin/karma start"
   },
-
   "author": "",
   "license": "MIT",
   "private": true,
