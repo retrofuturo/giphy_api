@@ -23,7 +23,6 @@ export default class GiphyApiService {
       gifsCount: 0,
       gifArray: [],
     };
-    console.log(gifs);
     gifsObject.gifsCount = gifs.data.pagination.total_count;
     gifs.data.data.forEach((gif) => {
       const gifObj = {};
