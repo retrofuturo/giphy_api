@@ -77,11 +77,11 @@ export default class GiphyApiService {
       }
     });
   }
-  uploadImage(inputDOMNode, uploadTags) {
+  uploadImage(file, uploadTags) {
     const tags = uploadTags.split(' ').join(',');
     const form = new FormData();
     form.append('api_key', this.apiKey);
-    form.append('file', inputDOMNode.files[0], inputDOMNode.files[0].name);
+    form.append('file', file, file.name);
     form.append('tags', tags);
     const config = {
       headers: {

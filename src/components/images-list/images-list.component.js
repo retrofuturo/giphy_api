@@ -1,10 +1,11 @@
 
 class ImagesListController {
   static get $inject() {
-    return ['GiphyApiService'];
+    return ['GiphyApiService', '$timeout'];
   }
-  constructor(GiphyApiService) {
+  constructor(GiphyApiService, $timeout) {
     this.GiphyApiService = GiphyApiService;
+    this.$timeout = $timeout;
     this.trendingGifs = {};
     this.searchGifs = {};
     this.collection = {};
@@ -14,8 +15,7 @@ class ImagesListController {
     this.pageSize = 6;
     this.originalUrl = '';
     this.uploadTags = '';
-    this.uploadSuccessfull = false;
-    this.uploadDisabled = false;
+    this.uploadMessage = '';
     this.selectPage = this.selectPage.bind(this);
     this.search = this.search.bind(this);
   }
@@ -65,22 +65,29 @@ class ImagesListController {
     }
   }
   uploadGif() {
-    this.uploadDisabled = true;
     const inputDOMNode = document.getElementById('imageUpload');
-    this.GiphyApiService.uploadImage(inputDOMNode, this.uploadTags).then(() => {
-      this.uploadSuccess();
-      this.getCollection();
-    }).catch((error) => {
-      console.error(error);
-    });
+    const file = inputDOMNode.files[0];
+    if (file) {
+      this.GiphyApiService.uploadImage(file, this.uploadTags).then(() => {
+        this.uploadSuccess();
+        this.getCollection();
+      }).catch((error) => {
+        console.error(error);
+      });
+    } else {
+      this.uploadMessage = 'Please, select file first';
+      this.clearMessage();
+    }
+  }
+  clearMessage() {
+    this.$timeout(() => {
+      this.uploadMessage = '';
+    }, 1500);
   }
   uploadSuccess() {
     this.uploadTags = '';
-    this.uploadDisabled = false;
-    this.uploadSuccessfull = true;
-    setTimeout(() => {
-      this.uploadSuccessfull = false;
-    }, 1000);
+    this.uploadMessage = 'Upload successful';
+    this.clearMessage();
   }
 }
 

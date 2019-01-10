@@ -8,20 +8,6 @@
     </md-input-container>
   </div>
 
-  <div class="upload-block">
-    <h5>Upload your gif:</h5>
-    <div>
-      <md-input-container>
-        <label>Tags</label>
-        <input name="tags" ng-model="$ctrl.uploadTags">
-      </md-input-container>
-    </div>
-    <label for="imageUpload" class="md-button md-raised md-primary">Choose Files</label>
-    <input type="file" name="imageInput" id="imageUpload" class="ng-hide">
-    <md-button class="md-raised" ng-click="$ctrl.uploadGif()" ng-disabled="$ctrl.uploadDisabled">Upload</md-button>
-    <h5 ng-if="$ctrl.uploadSuccessfull">Upload successful</h5>
-  </div>
-
   <div class="search-section" ng-if="$ctrl.searchGifs.gifArray && $ctrl.searchGifs.gifArray.length">
     <h2>Search results</h2>
       <div class="row">
@@ -98,9 +84,22 @@
         </div>
       </div>
     </md-tab>
+    <md-tab label="Upload">
+      <div class="upload-block">
+        <h5>Upload your gif:</h5>
+        <div>
+          <md-input-container>
+            <label>Tags</label>
+            <input name="tags" ng-model="$ctrl.uploadTags">
+          </md-input-container>
+        </div>
+        <label for="imageUpload" class="md-button md-raised md-primary">Choose Files</label>
+        <input type="file" name="imageInput" id="imageUpload" class="ng-hide" ng-model="$ctrl.imageInput" ng-change="$ctrl.uploadChange()">
+        <md-button class="md-raised" ng-click="$ctrl.uploadGif()" ng-disabled="$ctrl.uploadDisabled">Upload</md-button>
+        <h5>{{$ctrl.uploadMessage}}</h5>
+      </div>
+    </md-tab>
   </md-tabs>
-
-
 
 </div>
 
